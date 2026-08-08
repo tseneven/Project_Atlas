@@ -7,7 +7,7 @@ namespace node_core.Services;
 
 public class DockerService
 {
-    private readonly HttpClient httpClient;
+    private readonly HttpClient _httpClient;
 
     public DockerService()
     {
@@ -27,7 +27,7 @@ public class DockerService
             }
         };
 
-        httpClient = new HttpClient(handler)
+        _httpClient = new HttpClient(handler)
         {
             BaseAddress = new Uri("http://localhost")
         };
@@ -55,7 +55,7 @@ public class DockerService
             }
         };
 
-        var response = await httpClient.PostAsJsonAsync(
+        var response = await _httpClient.PostAsJsonAsync(
             "/containers/create",
             containerConfig,
             cancellationToken);
@@ -91,7 +91,7 @@ public class DockerService
             }
         };
 
-        var response = await httpClient.PostAsJsonAsync(
+        var response = await _httpClient.PostAsJsonAsync(
             "/networks/create",
             networkConfig,
             cancellationToken);
@@ -121,7 +121,7 @@ public class DockerService
         string networkName,
         CancellationToken cancellationToken = default)
     {
-        var response = await httpClient.GetAsync(
+        var response = await _httpClient.GetAsync(
             $"/networks/{Uri.EscapeDataString(networkName)}",
             cancellationToken);
 
@@ -139,7 +139,7 @@ public class DockerService
     {
         if (await NetworkExistsAsync(networkName, cancellationToken))
         {
-            var response = await httpClient.GetAsync(
+            var response = await _httpClient.GetAsync(
                 $"/networks/{Uri.EscapeDataString(networkName)}",
                 cancellationToken);
 
@@ -165,7 +165,7 @@ public class DockerService
     {
         if (!ImageExistsAsync(name, cancellationToken).GetAwaiter().GetResult())
         {
-            var response = await httpClient.PostAsync(
+            var response = await _httpClient.PostAsync(
                 $"/images/create?fromImage={name}&tag=latest",
                 content: null,
                 cancellationToken);
@@ -179,18 +179,27 @@ public class DockerService
 
     public async Task<bool> ImageExistsAsync(string name, CancellationToken cancellationToken = default)
     {
-        var images = await httpClient.GetFromJsonAsync<List<DockerImage>>(
+        var images = await _httpClient.GetFromJsonAsync<List<DockerImage>>(
             "/images/json",
             cancellationToken);
 
         return images?.Any(x => x.RepoTags.Any(xx => xx.Contains(name))) == true;
+    }
+    
+    public async Task<List<DockerContainer>?> GetAllNodes(CancellationToken cancellationToken = default)
+    {
+        var containers = await _httpClient.GetFromJsonAsync<List<DockerContainer>>(
+            "/containers/json?all=true",
+            cancellationToken);
+
+        return containers;
     }
 
     private async Task StartContainerAsync(
         string containerId,
         CancellationToken cancellationToken)
     {
-        var response = await httpClient.PostAsync(
+        var response = await _httpClient.PostAsync(
             $"/containers/{containerId}/start",
             null,
             cancellationToken);
@@ -202,14 +211,20 @@ public class DockerService
 public class DockerImage
 {
     public string Id { get; set; } = string.Empty;
-
     public List<string> RepoTags { get; set; } = [];
-
     public List<string> RepoDigests { get; set; } = [];
-
     public long Created { get; set; }
-
     public long Size { get; set; }
+}
+
+public class DockerContainer
+{
+    public string Id { get; set; } = string.Empty;
+    public List<string> Names { get; set; } = [];
+    public string? Image { get; set; }
+    public string? ImageID { get; set; }
+    public string? State { get; set; }
+    public string? Status { get; set; }
 }
 
 public class NodeResult
@@ -220,6 +235,5 @@ public class NodeResult
 public sealed class NetworkResult
 {
     public string Id { get; init; } = string.Empty;
-
     public string Warning { get; init; } = string.Empty;
 }

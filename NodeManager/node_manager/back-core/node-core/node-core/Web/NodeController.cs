@@ -54,13 +54,11 @@ public class NodeController(DockerService dockerService) : ControllerBase
     }
     
     [HttpGet("getAllNodes")]
-    public async Task<IActionResult> GetAllNodes()
+    public async Task<List<DockerContainer>?> GetAllNodes()
     {
         try
         {
-            await dockerService.EnsureNetworkAsync("nodeNetwork");
-
-            return Ok();
+            return await dockerService.GetAllNodes();
         }
         catch (Exception e)
         {
