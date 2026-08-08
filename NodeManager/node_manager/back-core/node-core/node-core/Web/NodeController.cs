@@ -12,14 +12,22 @@ public class NodeController(DockerService dockerService) : ControllerBase
     {
         try
         {
-            await dockerService.CreateNodeAsync(new CreateNodeRequest
-            {
-                Name = nodeParametrs.Name,
-                Image = nodeParametrs.Image,
-                MemoryBytes = nodeParametrs.MemoryBytes,
-                NanoCpus = nodeParametrs.NanoCpus,
-            });
+            var resultCreateImage = dockerService.CreateNodeImageAsync("ubuntu").GetAwaiter().GetResult();
 
+            if (resultCreateImage.Contains("OK"))
+            {
+                await dockerService.CreateNodeAsync(new CreateNodeRequest
+                {
+                    Name = nodeParametrs.Name,
+                    Image = nodeParametrs.Image,
+                    MemoryBytes = nodeParametrs.MemoryBytes,
+                    NanoCpus = nodeParametrs.NanoCpus,
+                });
+            }
+            else
+                throw new InvalidOperationException(
+                    "Node creation failed, не смогли создать image");
+            
             return Ok();
         }
         catch (Exception e)
@@ -34,7 +42,7 @@ public class NodeController(DockerService dockerService) : ControllerBase
     {
         try
         {
-            await dockerService.NetworkExistsAsync("nodeNetwork");
+            await dockerService.EnsureNetworkAsync("nodeNetwork");
 
             return Ok();
         }
@@ -44,9 +52,43 @@ public class NodeController(DockerService dockerService) : ControllerBase
                 "Node creation failed", e);
         }
     }
+    
+    [HttpGet("getAllNodes")]
+    public async Task<IActionResult> GetAllNodes()
+    {
+        try
+        {
+            await dockerService.EnsureNetworkAsync("nodeNetwork");
+
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            throw new InvalidOperationException(
+                "Node creation failed", e);
+        }
+    }
+    
+    [HttpGet("test")]
+    public async Task<IActionResult> Test()
+    {
+        // await dockerService.ImageExistsAsync();
+        return Ok();
+    }
 }
 
 public class NodeParametrs()
+{
+    public string Name { get; init; } = string.Empty;
+
+    public string Image { get; init; } = string.Empty;
+
+    public long MemoryBytes { get; init; }
+
+    public long NanoCpus { get; init; }
+}
+
+public sealed class CreateNodeRequest
 {
     public string Name { get; init; } = string.Empty;
 

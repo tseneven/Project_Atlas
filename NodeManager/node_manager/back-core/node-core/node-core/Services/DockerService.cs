@@ -1,5 +1,6 @@
 ﻿using System.IO.Pipes;
 using System.Text.Json;
+using node_core.Web;
 
 
 namespace node_core.Services;
@@ -40,13 +41,13 @@ public class DockerService
         var containerConfig = new
         {
             Image = request.Image,
-
+            Hostnamae = request.Image,
+            Domainname = request.Image,
             Labels = new Dictionary<string, string>
             {
                 ["nodemanager.node"] = "true",
                 ["nodemanager.name"] = request.Name
             },
-
             HostConfig = new
             {
                 Memory = request.MemoryBytes,
@@ -116,7 +117,7 @@ public class DockerService
         return result.Id;
     }
 
-    public async Task<bool> NetworkExistsAsync(
+    private async Task<bool> NetworkExistsAsync(
         string networkName,
         CancellationToken cancellationToken = default)
     {
@@ -132,7 +133,7 @@ public class DockerService
         return response.IsSuccessStatusCode;
     }
 
-    private async Task<string> EnsureNetworkAsync(
+    public async Task<string> EnsureNetworkAsync(
         string networkName,
         CancellationToken cancellationToken = default)
     {
@@ -158,6 +159,33 @@ public class DockerService
             cancellationToken);
     }
 
+    public async Task<string> CreateNodeImageAsync(
+        string name,
+        CancellationToken cancellationToken = default)
+    {
+        if (!ImageExistsAsync(name, cancellationToken).GetAwaiter().GetResult())
+        {
+            var response = await httpClient.PostAsync(
+                $"/images/create?fromImage={name}&tag=latest",
+                content: null,
+                cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+
+            return response.StatusCode.ToString();
+        }
+        return "OK. Image уже есть";
+    }
+
+    public async Task<bool> ImageExistsAsync(string name, CancellationToken cancellationToken = default)
+    {
+        var images = await httpClient.GetFromJsonAsync<List<DockerImage>>(
+            "/images/json",
+            cancellationToken);
+
+        return images?.Any(x => x.RepoTags.Any(xx => xx.Contains(name))) == true;
+    }
+
     private async Task StartContainerAsync(
         string containerId,
         CancellationToken cancellationToken)
@@ -171,20 +199,22 @@ public class DockerService
     }
 }
 
+public class DockerImage
+{
+    public string Id { get; set; } = string.Empty;
+
+    public List<string> RepoTags { get; set; } = [];
+
+    public List<string> RepoDigests { get; set; } = [];
+
+    public long Created { get; set; }
+
+    public long Size { get; set; }
+}
+
 public class NodeResult
 {
     public string Id { get; init; } = string.Empty;
-}
-
-public sealed class CreateNodeRequest
-{
-    public string Name { get; init; } = string.Empty;
-
-    public string Image { get; init; } = string.Empty;
-
-    public long MemoryBytes { get; init; }
-
-    public long NanoCpus { get; init; }
 }
 
 public sealed class NetworkResult

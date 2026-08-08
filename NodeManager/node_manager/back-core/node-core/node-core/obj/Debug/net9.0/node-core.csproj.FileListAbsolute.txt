@@ -31,3 +31,36 @@ C:\Users\Neven\Desktop\Project Atlas\NodeManager\node_manager\back-core\node-cor
 C:\Users\Neven\Desktop\Project Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.pdb
 C:\Users\Neven\Desktop\Project Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.genruntimeconfig.cache
 C:\Users\Neven\Desktop\Project Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\ref\node-core.dll
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\appsettings.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\node-core.staticwebassets.endpoints.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\node-core.exe
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\node-core.deps.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\node-core.runtimeconfig.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\node-core.dll
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\node-core.pdb
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.csproj.AssemblyReference.cache
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.AssemblyInfoInputs.cache
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.AssemblyInfo.cs
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.csproj.CoreCompileInputs.cache
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.sourcelink.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\scopedcss\bundle\node-core.styles.css
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.csproj.Up2Date
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.dll
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\refint\node-core.dll
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.pdb
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\node-core.genruntimeconfig.cache
+C:\Users\Neven\Desktop\Project_Atlas\NodeManager\node_manager\back-core\node-core\node-core\obj\Debug\net9.0\ref\node-core.dll

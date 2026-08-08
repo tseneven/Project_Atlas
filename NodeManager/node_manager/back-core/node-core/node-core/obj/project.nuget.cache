@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7EnuEQIm+wo=",
+  "dgSpecHash": "GFAsd+Q4xkY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Neven\\Desktop\\Project Atlas\\NodeManager\\node_manager\\back-core\\node-core\\node-core\\node-core.csproj",
+  "projectFilePath": "C:\\Users\\Neven\\Desktop\\Project_Atlas\\NodeManager\\node_manager\\back-core\\node-core\\node-core\\node-core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Neven\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.7\\microsoft.aspnetcore.openapi.9.0.7.nupkg.sha512",
     "C:\\Users\\Neven\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
