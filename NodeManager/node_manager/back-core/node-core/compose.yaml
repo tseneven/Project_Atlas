@@ -1,0 +1,7 @@
+﻿services:
+  node-core:
+    image: node-core
+    build:
+      context: .
+      dockerfile: node-core/Dockerfile
+
