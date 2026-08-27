@@ -5,12 +5,86 @@ import '../Constants/ColorsApp.dart';
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          Expanded(child: Container()),
-          RightPart(),
-        ],
+    return Scaffold(body: Row(children: [LeftPart(), RightPart()]));
+  }
+}
+
+class LeftPart extends StatefulWidget {
+  LeftPart({super.key});
+
+  @override
+  State<LeftPart> createState() => _LeftPartState();
+}
+
+class _LeftPartState extends State<LeftPart> {
+  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _loginController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void login(){
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Войти",
+              style: GoogleFonts.ubuntu(
+                fontSize: 66,
+                color: ColorsApp.TextBlack,
+              ),
+            ),
+            CustomField("Почта", _loginController),
+            CustomField("Пароль", _passwordController),
+            LoginScreenButton("Войти", ColorsApp.BlueAccent, false, 145.0, 20.0, login),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomField extends StatefulWidget {
+  final String label;
+  final TextEditingController controller;
+
+  const CustomField(this.label, this.controller, {super.key});
+
+  @override
+  State<CustomField> createState() => _CustomFieldState();
+}
+
+class _CustomFieldState extends State<CustomField> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 120.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: ColorsApp.TextBlack),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: TextFormField(
+            decoration: InputDecoration(
+              hint: Text(widget.label),
+              hintStyle: GoogleFonts.ubuntu(color: ColorsApp.TextBlack),
+              border: InputBorder.none,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -47,7 +121,7 @@ class RightPart extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 100.0),
-            AboutProjectButton(),
+            LoginScreenButton("Узнать больше", Colors.transparent, true, 40.0, 15.0, null),
           ],
         ),
       ),
@@ -55,14 +129,26 @@ class RightPart extends StatelessWidget {
   }
 }
 
-class AboutProjectButton extends StatefulWidget {
-  const AboutProjectButton({super.key});
+class LoginScreenButton extends StatefulWidget {
+  final String text;
+  final Color buttonColor;
+  final bool hasBorder;
+  final double horizonalPadding;
+  final double verticalPadding;
+  final VoidCallback? onTap;
+
+  const LoginScreenButton(
+    this.text,
+    this.buttonColor,
+    this.hasBorder, this.horizonalPadding, this.verticalPadding, this.onTap, {
+    super.key,
+  });
 
   @override
-  State<AboutProjectButton> createState() => _AboutProjectButtonState();
+  State<LoginScreenButton> createState() => _LoginScreenButtonState();
 }
 
-class _AboutProjectButtonState extends State<AboutProjectButton> {
+class _LoginScreenButtonState extends State<LoginScreenButton> {
   bool isHovered = false;
 
   @override
@@ -73,27 +159,21 @@ class _AboutProjectButtonState extends State<AboutProjectButton> {
       onExit: (_) => setState(() => isHovered = false),
       child: GestureDetector(
         onTap: () {
-          // действие
+          widget.onTap?.call();
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 40,
-            vertical: 15,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: widget.horizonalPadding, vertical: widget.verticalPadding),
           decoration: BoxDecoration(
             color: isHovered
-                ? Colors.white.withValues(alpha: 0.1)
-                : Colors.transparent,
-            border: Border.all(color: Colors.white),
-            borderRadius: BorderRadius.circular(10),
+                ? widget.buttonColor.withValues(alpha: 0.7)
+                : widget.buttonColor,
+            border: widget.hasBorder ? Border.all(color: Colors.white) : null,
+            borderRadius: BorderRadius.circular(10)
           ),
           child: Text(
-            'Узнать больше',
-            style: GoogleFonts.ubuntu(
-              fontSize: 24,
-              color: Colors.white,
-            ),
+            widget.text,
+            style: GoogleFonts.ubuntu(fontSize: 24, color: Colors.white),
           ),
         ),
       ),
