@@ -89,9 +89,9 @@ namespace API.Infrastructure.Services.Auth
     
     public enum LoginResult
     {
-        Unknown = 1,
-        Success = 2,
-        NotFound = 3,
-        InvalidPassword = 5,
+        Unknown,
+        Success,
+        NotFound,
+        InvalidPassword,
     }
 }

@@ -16,6 +16,8 @@ dependencies:
 
   cupertino_icons: ^1.0.9
   google_fonts: ^8.2.1
+  dio: ^5.11.1
+  logger: ^2.8.0
 
 dev_dependencies:
   flutter_test:

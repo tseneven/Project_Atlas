@@ -1,0 +1,33 @@
+import 'package:dio/dio.dart';
+
+class Configuration {
+  static DataSource productionSource = DataSource("localhost", "5163");
+  static DataSource localSource = DataSource("localhost", "5163");
+  static List<Controllers> controllers =  [
+    Controllers('login', '/api/Auth/login'),
+  ];
+}
+
+class DataSource {
+  String host;
+  String port;
+
+  DataSource(this.host, this.port);
+
+  String get baseUrl => 'http://$host:$port';
+
+  Controllers getController(String name) {
+    return Configuration.controllers.singleWhere((x) => x.name == name);
+  }
+}
+
+class Controllers {
+  String name;
+  String path;
+
+  Controllers(this.name, this.path);
+}
+
+class ApiClient {
+  final Dio dio = Dio(BaseOptions(baseUrl: Configuration.localSource.baseUrl));
+}

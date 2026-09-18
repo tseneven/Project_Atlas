@@ -1,5 +1,8 @@
+import 'package:atlas/Modules/Login/Model/LoginModel.dart';
+import 'package:atlas/Modules/Login/Service/LoginService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import '../../../Constants/ColorsApp.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -19,6 +22,8 @@ class LeftPart extends StatefulWidget {
 class _LeftPartState extends State<LeftPart> {
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final LoginService _loginService = LoginService();
+  Logger l = Logger(); // todo sasha прибрать по SOLID
 
   @override
   void dispose() {
@@ -27,8 +32,17 @@ class _LeftPartState extends State<LeftPart> {
     super.dispose();
   }
 
-  void login(){
+  void login() async {
+    if (_loginController.text.isEmpty || _passwordController.text.isEmpty)
+      return;
+    else {
+      var result = await _loginService.login(LoginModel(
+        _loginController.text,
+        _passwordController.text,
+      )); // todo sasha привести метод в порядок
 
+      l.i(result.Error);
+    }
   }
 
   @override
@@ -47,7 +61,14 @@ class _LeftPartState extends State<LeftPart> {
             ),
             CustomField("Почта", _loginController),
             CustomField("Пароль", _passwordController),
-            LoginScreenButton("Войти", ColorsApp.BlueAccent, false, 145.0, 20.0, login),
+            LoginScreenButton(
+              "Войти",
+              ColorsApp.BlueAccent,
+              false,
+              145.0,
+              20.0,
+              login,
+            ),
           ],
         ),
       ),
@@ -78,6 +99,7 @@ class _CustomFieldState extends State<CustomField> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: TextFormField(
+            controller: widget.controller,
             decoration: InputDecoration(
               hint: Text(widget.label),
               hintStyle: GoogleFonts.ubuntu(color: ColorsApp.TextBlack),
@@ -121,7 +143,14 @@ class RightPart extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 100.0),
-            LoginScreenButton("Узнать больше", Colors.transparent, true, 40.0, 15.0, null),
+            LoginScreenButton(
+              "Узнать больше",
+              Colors.transparent,
+              true,
+              40.0,
+              15.0,
+              null,
+            ),
           ],
         ),
       ),
@@ -140,7 +169,10 @@ class LoginScreenButton extends StatefulWidget {
   const LoginScreenButton(
     this.text,
     this.buttonColor,
-    this.hasBorder, this.horizonalPadding, this.verticalPadding, this.onTap, {
+    this.hasBorder,
+    this.horizonalPadding,
+    this.verticalPadding,
+    this.onTap, {
     super.key,
   });
 
@@ -163,13 +195,16 @@ class _LoginScreenButtonState extends State<LoginScreenButton> {
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          padding: EdgeInsets.symmetric(horizontal: widget.horizonalPadding, vertical: widget.verticalPadding),
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.horizonalPadding,
+            vertical: widget.verticalPadding,
+          ),
           decoration: BoxDecoration(
             color: isHovered
                 ? widget.buttonColor.withValues(alpha: 0.7)
                 : widget.buttonColor,
             border: widget.hasBorder ? Border.all(color: Colors.white) : null,
-            borderRadius: BorderRadius.circular(10)
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
             widget.text,
