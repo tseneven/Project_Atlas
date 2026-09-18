@@ -8,21 +8,14 @@ namespace API.Web.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController : ControllerBase
+public class AuthController(AuthService authService) : ControllerBase
 {
-    private readonly AuthService _authService;
-
-    public AuthController(AuthService authService)
-    {
-        _authService = authService;
-    }
-
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginDTO loginReq)
     {
         try
         {
-            var token = _authService.Login(loginReq);
+            var token = authService.Login(loginReq);
 
             switch (token.LoginResult)
             {
@@ -56,7 +49,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var result = await _authService.Register(registerDTO);
+            var result = await authService.Register(registerDTO);
             if (result == RegisterResult.AlreadyExists)
             {
                 Logger.Warn($"Такая запись уже есть");

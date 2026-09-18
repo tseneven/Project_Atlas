@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +10,6 @@ using API.Web.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddHttpContextAccessor();
 builder.Logging.ClearProviders();
@@ -32,8 +32,6 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
-
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpLogging(logging =>
 {
@@ -82,6 +80,14 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+builder.Services.Scan(scan => scan
+    .FromAssemblies(Assembly.GetExecutingAssembly())
+    .AddClasses(classes => classes.Where(type =>
+        type.Name.EndsWith("Service") ||
+        type.Name.EndsWith("Repository") ||
+        type.Name == "EntityStorage"))
+    .AsSelf()
+    .WithScopedLifetime()); // todo sasha надо че-то с этим придумать, кринж
 
 builder.Services.AddAuthorization();
 
