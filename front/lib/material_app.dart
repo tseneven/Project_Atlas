@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front/Screens/login_screen.dart';
+import 'package:atlas/Modules/Login/Screens/login_screen.dart';
 
 class MaterialAppFrame extends StatelessWidget {
   @override
