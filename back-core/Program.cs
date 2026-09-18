@@ -3,15 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using API.Infrastructure.Migration;
-using API.Infrastructure.Repositorys.Auth;
-using API.Infrastructure.Repositorys.Auth.Guards;
+using API.Infrastructure.Services.Auth.Guards;
 using API.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSingleton<JWTService>();
+builder.Services.AddSingleton<JwtService>();
 builder.Services.AddHttpContextAccessor();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();

@@ -19,7 +19,7 @@ namespace API.Infrastructure.Entities
 
         [Required]
         [MaxLength(100)]
-        public string Hash_Password { get; set; }
+        public string HashPassword { get; set; }
 
         [Required]
         [MaxLength(100)]

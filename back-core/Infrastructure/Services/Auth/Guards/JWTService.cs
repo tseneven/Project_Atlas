@@ -3,15 +3,15 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Infrastructure.Repositorys.Auth.Guards;
+namespace API.Infrastructure.Services.Auth.Guards;
 
-public class JWTService
+public class JwtService
 {
     private readonly string _secret;
     private readonly string _issuer;
     private readonly string _audience;
 
-    public JWTService(IConfiguration configuration)
+    private JwtService(IConfiguration configuration)
     {
         _secret = configuration["Jwt:Key"];
         _issuer = configuration["Jwt:Issuer"];

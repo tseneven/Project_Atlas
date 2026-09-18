@@ -2,11 +2,11 @@
 using API.Domain;
 using API.Infrastructure.Entities;
 using API.Infrastructure.Helpers;
-using API.Infrastructure.Repositorys.Auth.Guards;
+using API.Infrastructure.Services.Auth.Guards;
 
 namespace API.Infrastructure.Services.Auth
 {
-    public class AuthService(JWTService jwtService, EntityStorage entityStorage)
+    public class AuthService(JwtService jwtService, EntityStorage entityStorage)
     {
 
 
@@ -24,7 +24,7 @@ namespace API.Infrastructure.Services.Auth
                 {
                     Email = registerDTO.Email,
                     Salt = saltString,
-                    Hash_Password = hashPasswordString,
+                    HashPassword = hashPasswordString,
                     Login = registerDTO.Username,
                 };
 
@@ -49,7 +49,7 @@ namespace API.Infrastructure.Services.Auth
                     Id = userEntity.Id,
                     Login = userEntity.Login,
                     Email = userEntity.Email,
-                    PasswordHash = userEntity.Hash_Password,
+                    PasswordHash = userEntity.HashPassword,
                     Salt = userEntity.Salt,
                 };
 
@@ -61,7 +61,7 @@ namespace API.Infrastructure.Services.Auth
                 {
                     var token = jwtService.GenerateToken(userDTO.Id.ToString(), userDTO.Email);
                     return new AuthDTO
-                        { Token = token, UserID = userEntity.Id.ToString(), Username = userEntity.Login, LoginResult = LoginResult.Success};
+                        { Token = token, UserId = userEntity.Id.ToString(), Username = userEntity.Login, LoginResult = LoginResult.Success};
                 }
 
                 return new AuthDTO { LoginResult = LoginResult.InvalidPassword };
@@ -75,7 +75,7 @@ namespace API.Infrastructure.Services.Auth
     }
     public class AuthDTO
     {
-        public String? UserID { get; set; }
+        public String? UserId { get; set; }
         public string? Username { get; set; }
         public string? Token { get; set; }
         public LoginResult LoginResult { get; set; }

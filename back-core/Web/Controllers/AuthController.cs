@@ -1,6 +1,5 @@
 ﻿using API.Application.DTO;
 using API.Infrastructure.Helpers;
-using API.Infrastructure.Repositorys.Auth;
 using API.Infrastructure.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

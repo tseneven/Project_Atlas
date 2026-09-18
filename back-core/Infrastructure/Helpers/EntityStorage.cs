@@ -7,15 +7,23 @@ public class EntityStorage(ApplicationContext context)
 {
     public IQueryable<T> Select<T>() where T : class
     {
-        return context.Set<T>();
+        try
+        {
+            return context.Set<T>();
+        }
+        catch (Exception e)
+        {
+            Logger.Error("Что-то сломалось при запросе в Postgres", e);
+            throw;
+        }
     }
 
     public async Task<int> CreateAsync<T>(T entity) where T : class, IEntity
     {
         try
-        {        
+        {
             context.Set<T>().Add(entity);
-            await context.SaveChangesAsync();
+            await Commit();
 
             return entity.Id;
         }
@@ -25,13 +33,12 @@ public class EntityStorage(ApplicationContext context)
             throw;
         }
     }
-    
+
     public async void CreateEntityAsync<T>(T entity) where T : class
     {
         try
         {
-            var newEntity = entity;
-            context.Set<T>().Add(newEntity);
+            context.Set<T>().Add(entity);
             await Commit();
         }
         catch (Exception e)
@@ -39,7 +46,37 @@ public class EntityStorage(ApplicationContext context)
             Logger.Error("Что-то сломалось при создании записи в Postgres", e);
         }
     }
-    
-    
+
+    public async Task UpdateAsync<T>(T entity)
+        where T : class
+    {
+        try
+        {
+            context.Set<T>().Update(entity);
+            await Commit();
+        }
+        catch (Exception e)
+        {
+            Logger.Error("Что-то сломалось при обновлении записи в Postgres", e);
+            throw;
+        }
+    }
+
+    public async Task DeleteAsync<T>(T entity)
+        where T : class
+    {
+        try
+        {
+            context.Set<T>().Remove(entity);
+            await Commit();
+        }
+        catch (Exception e)
+        {
+            Logger.Error("Что-то сломалось при удалении записи из Postgres", e);
+            throw;
+        }
+    }
+
+
     private Task Commit() => context.SaveChangesAsync();
 }
