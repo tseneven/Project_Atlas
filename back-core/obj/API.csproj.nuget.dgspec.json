@@ -55,19 +55,11 @@
               "target": "Package",
               "version": "[8.0.20, )"
             },
-            "Microsoft.AspNetCore.Authentication.Negotiate": {
-              "target": "Package",
-              "version": "[8.0.18, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[9.0.9, )"
-            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[8.0.19, )"
             },
             "Microsoft.Identity.Client": {
               "target": "Package",
@@ -77,9 +69,13 @@
               "target": "Package",
               "version": "[8.14.0, )"
             },
-            "Pomelo.EntityFrameworkCore.MySql": {
+            "Npgsql": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[8.0.8, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.8, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

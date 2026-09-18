@@ -11,7 +11,7 @@ public class JwtService
     private readonly string _issuer;
     private readonly string _audience;
 
-    private JwtService(IConfiguration configuration)
+    public JwtService(IConfiguration configuration)
     {
         _secret = configuration["Jwt:Key"];
         _issuer = configuration["Jwt:Issuer"];
