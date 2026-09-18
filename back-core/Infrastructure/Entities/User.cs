@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Infrastructure.Entities
 {
     [Table("Users")]
-    public class User
+    public class User : IEntity
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(30)]
@@ -23,6 +23,6 @@ namespace API.Infrastructure.Entities
 
         [Required]
         [MaxLength(100)]
-        public string Salt { get; set; } 
+        public string Salt { get; set; }
     }
 }

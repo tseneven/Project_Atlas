@@ -35,8 +35,6 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     )
 );
 
-builder.Services.AddScoped<IAuth_Repository, Auth_Repository>();
-
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpLogging(logging =>
