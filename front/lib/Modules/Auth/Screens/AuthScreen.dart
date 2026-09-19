@@ -187,7 +187,7 @@ class RightPart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "FinIntelliGence",
+              "FinIntelligence",
               style: GoogleFonts.ubuntu(fontSize: 66, color: Colors.white),
             ),
             Text(
