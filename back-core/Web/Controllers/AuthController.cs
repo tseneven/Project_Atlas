@@ -2,7 +2,6 @@
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Web.Controllers;
 

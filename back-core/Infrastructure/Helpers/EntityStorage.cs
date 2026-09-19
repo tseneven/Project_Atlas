@@ -34,16 +34,18 @@ public class EntityStorage(ApplicationContext context)
         }
     }
 
-    public async void CreateEntityAsync<T>(T entity) where T : class
+    public async Task<T> CreateEntityAsync<T>(T entity) where T : class
     {
         try
         {
             context.Set<T>().Add(entity);
             await Commit();
+            return entity;
         }
         catch (Exception e)
         {
             Logger.Error("Что-то сломалось при создании записи в Postgres", e);
+            throw;
         }
     }
 
