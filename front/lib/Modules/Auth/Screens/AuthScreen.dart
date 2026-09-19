@@ -1,11 +1,12 @@
-import 'package:atlas/Modules/Login/Model/LoginModel.dart';
-import 'package:atlas/Modules/Login/Service/LoginService.dart';
+import 'package:atlas/Modules/Auth/Model/AuthModel.dart';
+import 'package:atlas/Modules/Auth/Service/AuthService.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import '../../../Constants/ColorsApp.dart';
 
-class LoginScreen extends StatelessWidget {
+class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Row(children: [LeftPart(), RightPart()]));
@@ -22,8 +23,9 @@ class LeftPart extends StatefulWidget {
 class _LeftPartState extends State<LeftPart> {
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginService _loginService = LoginService();
-  Logger l = Logger(); // todo sasha прибрать по SOLID
+  final AuthService _loginService = AuthService();
+  Logger logger = Logger();
+  LoginState _loginState = LoginState.Login;
 
   @override
   void dispose() {
@@ -36,14 +38,46 @@ class _LeftPartState extends State<LeftPart> {
     if (_loginController.text.isEmpty || _passwordController.text.isEmpty)
       return;
     else {
-      var result = await _loginService.login(LoginModel(
-        _loginController.text,
-        _passwordController.text,
-      )); // todo sasha привести метод в порядок
-
-      l.i(result.Error);
+      var result = await _loginService.login(
+        AuthModel(_loginController.text, _passwordController.text),
+      );
+      if (result.Success) {
+        Navigator.pushReplacementNamed(context, "main");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result.Error ?? "Ошибка. Напиши в поддержку")),
+        );
+      }
     }
   }
+
+  void register() async {
+    if (_loginController.text.isEmpty || _passwordController.text.isEmpty)
+      return;
+    else {
+      var result = await _loginService.register(
+        AuthModel(_loginController.text, _passwordController.text),
+      );
+      if (result.Success) {
+        Navigator.pushReplacementNamed(context, "main");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result.Error ?? "Ошибка. Напиши в поддержку")),
+        );
+      }
+    }
+  }
+
+  void changeState() {
+    setState(() {
+      if (_loginState == LoginState.Login)
+        _loginState = LoginState.Register;
+      else
+        _loginState = LoginState.Login;
+    });
+  }
+
+  bool stateIsLogin() => _loginState == LoginState.Login;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +87,7 @@ class _LeftPartState extends State<LeftPart> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Войти",
+              stateIsLogin() ? "Войти" : "Регистрация",
               style: GoogleFonts.ubuntu(
                 fontSize: 66,
                 color: ColorsApp.TextBlack,
@@ -62,12 +96,35 @@ class _LeftPartState extends State<LeftPart> {
             CustomField("Почта", _loginController),
             CustomField("Пароль", _passwordController),
             LoginScreenButton(
-              "Войти",
+              stateIsLogin() ? "Войти" : "Зарегистрироваться",
               ColorsApp.BlueAccent,
               false,
               145.0,
               20.0,
-              login,
+              stateIsLogin() ? login : register,
+            ),
+            SizedBox(height: 30),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: !stateIsLogin()
+                        ? "Уже есть аккаунт? "
+                        : "Ещё нет аккаунта? ",
+                    style: GoogleFonts.ubuntu(fontSize: 16),
+                  ),
+                  TextSpan(
+                    text: !stateIsLogin()
+                        ? "Авторизируйся!"
+                        : "Зарегистрируйся!",
+                    style: GoogleFonts.ubuntu(color: Colors.blue, fontSize: 16),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        changeState();
+                      },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -134,7 +191,7 @@ class RightPart extends StatelessWidget {
               style: GoogleFonts.ubuntu(fontSize: 66, color: Colors.white),
             ),
             Text(
-              "Современный аналитик  ваших финансов",
+              "Современный аналитик\nваших финансов",
               style: GoogleFonts.ubuntu(
                 fontSize: 30,
                 color: Colors.white,
@@ -215,3 +272,5 @@ class _LoginScreenButtonState extends State<LoginScreenButton> {
     );
   }
 }
+
+enum LoginState { Login, Register }

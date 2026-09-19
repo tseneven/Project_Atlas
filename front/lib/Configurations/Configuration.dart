@@ -5,6 +5,7 @@ class Configuration {
   static DataSource localSource = DataSource("localhost", "5163");
   static List<Controllers> controllers =  [
     Controllers('login', '/api/Auth/login'),
+    Controllers('register', '/api/Auth/register'),
   ];
 }
 

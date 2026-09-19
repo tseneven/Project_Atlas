@@ -57,7 +57,7 @@ public class AuthController(AuthService authService) : ControllerBase
             }
             return Ok(result);
         }
-        catch (DbUpdateException ex)
+        catch (Exception ex)
         {
             Logger.Error("Упс... А не зарегистрироваться не получилось", ex);
             return StatusCode(500, ex.Message);
