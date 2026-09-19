@@ -8,30 +8,36 @@ namespace API.Infrastructure.Services.Auth
 {
     public class AuthService(JwtService jwtService, EntityStorage entityStorage)
     {
-
-
         public async Task<RegisterResult> Register(RegisterDTO registerDTO)
         {
-            var result = entityStorage.Select<User>().FirstOrDefault(u => u.Email == registerDTO.Email);
-
-            if (result == null)
+            try
             {
-                var salt = PasswordHelper.GenerateSalt();
-                var saltString = Convert.ToBase64String(salt);
-                var hashPassword = PasswordHelper.HashPassword(registerDTO.Password, salt);
-                var hashPasswordString = Convert.ToBase64String(hashPassword);
-                User userDTO = new User()
+                var result = entityStorage.Select<User>().FirstOrDefault(u => u.Email == registerDTO.Email);
+
+                if (result == null)
                 {
-                    Email = registerDTO.Email,
-                    Salt = saltString,
-                    HashPassword = hashPasswordString,
-                };
+                    var salt = PasswordHelper.GenerateSalt();
+                    var saltString = Convert.ToBase64String(salt);
+                    var hashPassword = PasswordHelper.HashPassword(registerDTO.Password, salt);
+                    var hashPasswordString = Convert.ToBase64String(hashPassword);
+                    User userDTO = new User()
+                    {
+                        Email = registerDTO.Email,
+                        Salt = saltString,
+                        HashPassword = hashPasswordString,
+                    };
 
-                await entityStorage.CreateAsync(userDTO);
-                return RegisterResult.Success;
+                    await entityStorage.CreateAsync(userDTO);
+                    return RegisterResult.Success;
+                }
+
+                return RegisterResult.AlreadyExists;
             }
-
-            return RegisterResult.AlreadyExists;
+            catch (Exception ex)
+            {
+                Logger.Error("Что-то пошло не так..", ex);
+                return RegisterResult.Error;
+            }
         }
 
         public AuthDTO Login(LoginDTO loginReq)
@@ -80,8 +86,9 @@ namespace API.Infrastructure.Services.Auth
 
     public enum RegisterResult
     {
-        Success = 1,
-        AlreadyExists = 2,
+        Error = 1,
+        Success = 2,
+        AlreadyExists = 3,
     }
     
     public enum LoginResult

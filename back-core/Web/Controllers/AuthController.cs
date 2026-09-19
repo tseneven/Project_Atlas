@@ -50,12 +50,18 @@ public class AuthController(AuthService authService) : ControllerBase
         try
         {
             var result = await authService.Register(registerDTO);
-            if (result == RegisterResult.AlreadyExists)
+            switch (result)
             {
-                Logger.Warn($"Такая запись уже есть");
-                return BadRequest();
+                case RegisterResult.AlreadyExists:
+                    Logger.Warn($"Такая запись уже есть");
+                    return BadRequest();
+                case RegisterResult.Error:
+                    return StatusCode(500);
+                case RegisterResult.Success:
+                    return Ok(result);
+                default:
+                    return StatusCode(500);
             }
-            return Ok(result);
         }
         catch (Exception ex)
         {
