@@ -5,7 +5,7 @@ class MaterialAppFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "auth",
+      initialRoute: "register",
       debugShowCheckedModeBanner: false,
       routes: Routes.routes,
     );

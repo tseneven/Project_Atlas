@@ -1,14 +1,16 @@
-import 'package:atlas/Components/FinLabel.dart';
-import 'package:atlas/Components/Logo.dart';
-import 'package:atlas/Constants/ColorsApp.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import "package:atlas/Components/FinLabel.dart";
+import "package:atlas/Components/Footer.dart";
+import "package:atlas/Components/Header.dart";
+import "package:atlas/Components/Logo.dart";
+import "package:atlas/Constants/ColorsApp.dart";
+import "package:flutter/gestures.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:logger/logger.dart";
 
-import '../Model/AuthModel.dart';
-import '../Service/AuthService.dart';
+import "../Model/AuthModel.dart";
+import "../Service/AuthService.dart";
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -18,23 +20,9 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  String version = 'error';
+  String version = "error";
 
-  @override
-  void initState() {
-    super.initState();
-    _loadVersion();
-  }
 
-  Future<void> _loadVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-
-    if (!mounted) return;
-
-    setState(() {
-      version = packageInfo.version;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +30,9 @@ class _AuthScreenState extends State<AuthScreen> {
       backgroundColor: ColorsApp.backgroundBlack,
       body: Column(
         children: [
-          HeaderWidget(version: version),
+          HeaderWidget(),
           MainWidget(),
-          FooterWidget(version: version),
+          FooterWidget(),
         ],
       ),
     );
@@ -199,7 +187,7 @@ class _RightCenterWidgetState extends State<RightCenterWidget> {
                   visualDensity: VisualDensity.compact,
                 ),
                 Text(
-                  'Запомнить устройство',
+                  "Запомнить устройство",
                   style: GoogleFonts.inter(
                     color: ColorsApp.textWhiteGrey,
                     fontSize: 12,
@@ -235,6 +223,10 @@ class _RightCenterWidgetState extends State<RightCenterWidget> {
                         fontSize: 12,
                         fontWeight: FontWeight.w200,
                       ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.pushReplacementNamed(context, "register");
+                        },
                     ),
                   ],
                 ),
@@ -468,7 +460,7 @@ class LeftCenterWidget extends StatelessWidget {
                 svgPath: "circ.svg",
                 labelText: "Структура и ребалансировка",
                 descText:
-                    "Сравнивайте распределение активов с целевой стратегией (например, 60 /30 / 10).",
+                    "Сравнивайте распределение активов с целевой стратегией (например, 60 / 30 / 10).",
               ),
               SizedBox(height: 24),
               Container(
@@ -593,143 +585,6 @@ class MainTextWidget extends StatelessWidget {
             color: ColorsApp.textWhite,
             fontSize: 16,
             fontWeight: FontWeight.w200,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key, required this.version});
-
-  final String version;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: ColorsApp.borderGrey)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Row(
-            children: [
-              Logo(),
-              SizedBox(width: 20),
-              FinLabel(),
-              SizedBox(width: 20),
-              Text(
-                "/",
-                style: GoogleFonts.inter(
-                  color: ColorsApp.textGrey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(width: 10),
-              Text(
-                "SECURE GATEWAY CORE V${version}",
-                style: GoogleFonts.jetBrainsMono(
-                  color: ColorsApp.textWhiteGrey,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FooterWidget extends StatelessWidget {
-  const FooterWidget({super.key, required this.version});
-
-  final String version;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 4,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: ColorsApp.borderGrey)),
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final isMobile = constraints.maxWidth < 800;
-
-            return Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 16 : 24,
-                vertical: isMobile ? 0 : 0,
-              ),
-              child: isMobile
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "FinIntelligence Terminal v$version • Secure Gateway Core",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            color: ColorsApp.textWhiteGrey,
-                            fontSize: 11,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        _buildLinks(),
-                      ],
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            "FinIntelligence Terminal v$version • Secure Gateway Core",
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.inter(
-                              color: ColorsApp.textWhiteGrey,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        _buildLinks(),
-                      ],
-                    ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLinks() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Безопасность",
-          style: GoogleFonts.inter(
-            color: ColorsApp.textWhiteGrey,
-            fontSize: 12,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-        const SizedBox(width: 15),
-        Text(
-          "Конфиденциальность",
-          style: GoogleFonts.inter(
-            color: ColorsApp.textWhiteGrey,
-            fontSize: 12,
-            fontWeight: FontWeight.normal,
           ),
         ),
       ],
