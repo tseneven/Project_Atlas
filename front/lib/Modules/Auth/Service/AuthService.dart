@@ -6,7 +6,7 @@ import 'package:atlas/Modules/Auth/Model/AuthModel.dart';
 class AuthService {
   ApiClient apiClient = ApiClient();
 
-  Future<FunctionResult> login(AuthModel model) async {
+  Future<FunctionResult> login(AuthModel model, bool saveToken) async {
     try {
       final controller = Configuration.localSource.getController("login").path;
       final response = await apiClient.dio.post(
@@ -15,7 +15,8 @@ class AuthService {
       );
 
       if (response.statusCode == 200) {
-        CookieHelpers.SetToken(response.data['token']);
+        if(saveToken)
+          CookieHelpers.SetToken(response.data['token']);
         return FunctionResult(true);
       } else if (response.statusCode == 403 || response.statusCode == 404)
         return FunctionResult(false, Error: "Неверный логин или пароль");

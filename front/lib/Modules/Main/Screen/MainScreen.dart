@@ -88,11 +88,11 @@ class MenuWidget extends StatelessWidget {
             ),
           ),
           decoration: BoxDecoration(
-            color: ColorsApp.milkWhite,
+            color: ColorsApp.OldMilkWhite,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: ColorsApp.BlueAccent,
+                color: ColorsApp.OldBlueAccent,
                 blurRadius: 4,
                 offset: Offset(0, 4),
               ),
@@ -149,7 +149,7 @@ class HeaderWidget extends StatelessWidget {
     return Container(
       height: 100,
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(color: ColorsApp.BlueAccent),
+      decoration: BoxDecoration(color: ColorsApp.OldBlueAccent),
       child: Row(
         children: [LabelWidget(), const SizedBox(width: 20), UserWidget()],
       ),
