@@ -12,8 +12,12 @@ namespace API.Infrastructure.Migration
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
-
-
+            
+            modelBuilder.Entity<BrokerageAccount>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.BrokerageAccounts)
+                .HasForeignKey(x => x.User.Id);
+            
             base.OnModelCreating(modelBuilder);
         }
     }

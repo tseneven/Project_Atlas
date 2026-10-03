@@ -24,5 +24,7 @@ namespace API.Infrastructure.Entities
         [MaxLength(100)]
         [Column("salt")]
         public string Salt { get; set; }
+        
+        public ICollection<BrokerageAccount> BrokerageAccounts { get; set; } = [];
     }
 }
